@@ -1,0 +1,238 @@
+/* Definindo fontes personalizadas no CSS */
+@font-face {
+    font-family: 'Raleway-Regular';
+    src: url('fonts/Raleway-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway-Bold';
+    src: url('fonts/Raleway-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway-SemiBold';
+    src: url('fonts/Raleway-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+/* Resetando margens e paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo geral */
+body {
+    font-family: 'Raleway-Regular', sans-serif;
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+/* Caixa do formulário com desfoque no fundo */
+.form-container {
+    position: relative;
+    width: 90%; 
+    max-width: 350px; 
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 12px; 
+    text-align: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2;
+}
+
+/* Imagem no canto inferior */
+#background-image {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 1800px;
+    height: auto;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+/* Caixa do logo do login */
+.login-container-img img {
+    width: 140px;
+}
+
+/* Estilo do conteúdo do formulário */
+.form-box {
+    position: relative;
+    z-index: 2;
+    margin-top: 30px;
+}
+
+.form-box p {
+    margin-top: 20px;
+    
+}
+.form-box a {
+    text-decoration: none;
+    font-family: 'Raleway-SemiBold';
+
+}
+
+/* Animação para desaparecer o formulário */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+}
+
+/* Estilo dos inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #9F3EFC;
+    outline: none;
+}
+.esqueceu {
+    margin-top: 30px;
+    
+}
+.esqueceu a {
+    text-decoration: none;
+    font-family: 'Raleway-SemiBold';
+}
+
+/* Estilo dos botões */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #9F3EFC;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #7d1bc5;
+}
+
+/* Animação da logo */
+@keyframes logoAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para a animação da logo */
+@keyframes logoAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(50px); /* Move a logo para baixo no início */
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0); /* A logo se move para a posição central */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* A logo permanece centralizada */
+    }
+}
+
+/* Estilo para a logo centralizada */
+#logo-center {
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Centraliza a logo */
+    z-index: 10;
+    animation: logoAnimation 2.5s ease-in-out forwards; /* Aplica a animação */
+    
+    width: 200px; /* Tamanho da logo ajustável */
+    height: auto; /* Mantém a proporção */
+    object-fit: contain; /* Garante que a logo não distorça */
+}
+
+/* Animação de fade-out para o formulário */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden; /* Esconde o formulário após o fade-out */
+    }
+}
+
+/* Classe de fade-out */
+.fade-out {
+    animation: fadeOut 1s forwards;
+    visibility: hidden; /* Certifica-se que o formulário é invisível */
+}
+
+
+
+/* Definindo a animação para o eclipse piscante */
+#blinking-image-container {
+    position: fixed;
+    top: 200%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.5;
+}
+
+#blinking-image {
+    width: 300vw;
+    height: 300vh;
+    animation: blinkAnimation 4s infinite ease-in-out;
+}
+
+@keyframes blinkAnimation {
+    0%, 100% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+}

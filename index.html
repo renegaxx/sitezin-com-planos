@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="no-js oldie" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+
+    <!--- basic page needs
+   ================================================== -->
+    <meta charset="utf-8">
+    <title>PutHype</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+   ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+   ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- script
+   ================================================== -->
+    <script src="js/modernizr.js"></script>
+    <script src="js/pace.min.js"></script>
+
+    <!-- favicons
+	================================================== -->
+    <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon">
+    <link rel="icon" href="assets/logosolo.png" type="image/x-icon">
+
+</head>
+
+<body id="top">
+
+    <!-- header 
+   ================================================== -->
+    <header id="header" class="row">
+
+        <div class="header-logo">
+            <img src="assets/logo.png" alt="" class="logo">
+        </div>
+
+        <nav id="header-nav-wrap">
+            <ul class="header-main-nav">
+                <li class="current"><a class="smoothscroll" href="#home" title="home">Início</a></li>
+                <li><a class="smoothscroll" href="#about" title="about">Sobre</a></li>
+                <li><a class="smoothscroll" href="#pricing" title="pricing">Preços</a></li>
+                <li><a class="smoothscroll" href="#testimonials" title="testimonials">Depoimentos</a></li>
+                <li><a class="smoothscroll" href="#download" title="download">Download</a></li>
+            </ul>
+
+            <a href="LoginCadastro.html" title="sign-up" class="button button-primary cta">Iniciar</a>
+        </nav>
+
+        <a class="header-menu-toggle" href="#"><span>Menu</span></a>
+
+    </header> <!-- /header -->
+
+
+    <!-- home
+   ================================================== -->
+   
+    <section id="home" data-parallax="scroll" data-image-src="Slide 16_20.png" data-natural-width=3000
+        data-natural-height=2000>
+        
+        <div class="overlay">
+            <!-- WebGL Canvas -->
+<canvas id="neuro"></canvas>
+<script>
+    const canvasEl = document.querySelector("canvas#neuro");
+    const gl = canvasEl.getContext("webgl") || canvasEl.getContext("experimental-webgl");
+
+    if (!gl) {
+        alert("WebGL is not supported by your browser.");
+    }
+
+    const vertexShaderSource = `
+        attribute vec2 a_position;
+        varying vec2 vUv;
+        void main() {
+            vUv = 0.5 * (a_position + 1.0);
+            gl_Position = vec4(a_position, 0.0, 1.0);
+        }
+    `;
+
+    const fragmentShaderSource = `
+        precision mediump float;
+        varying vec2 vUv;
+        uniform float u_time;
+        uniform float u_ratio;
+
+        vec2 rotate(vec2 uv, float th) {
+            return mat2(cos(th), sin(th), -sin(th), cos(th)) * uv;
+        }
+
+        float neuro_shape(vec2 uv, float t) {
+            vec2 sine_acc = vec2(0.);
+            vec2 res = vec2(0.);
+            float scale = 8.;
+
+            for (int j = 0; j < 15; j++) {
+                uv = rotate(uv, 1.);
+                sine_acc = rotate(sine_acc, 1.);
+                vec2 layer = uv * scale + float(j) - t;
+                sine_acc += sin(layer);
+                res += (.5 + .5 * cos(layer)) / scale;
+                scale *= 1.2;
+            }
+            return res.x + res.y;
+        }
+
+        void main() {
+            vec2 uv = vUv;
+            uv.x *= u_ratio;
+
+            float t = 0.001 * u_time;
+            float noise = neuro_shape(uv, t);
+            noise = 1.2 * pow(noise, 3.);
+            noise += pow(noise, 10.);
+            noise = max(0.0, noise - 0.5);
+
+            // Cor roxa
+            vec3 color = vec3(0.62, 0.24, 0.99) * noise; // #9F3EFC em RGB
+            gl_FragColor = vec4(color, 1.0);
+        }
+    `;
+
+    function createShader(gl, sourceCode, type) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, sourceCode);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.error("Error compiling shader:", gl.getShaderInfoLog(shader));
+            gl.deleteShader(shader);
+            return null;
+        }
+        return shader;
+    }
+
+    function createShaderProgram(gl, vertexShaderSource, fragmentShaderSource) {
+        const vertexShader = createShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
+        const fragmentShader = createShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error("Unable to link shader program:", gl.getProgramInfoLog(program));
+            return null;
+        }
+        return program;
+    }
+
+    const shaderProgram = createShaderProgram(gl, vertexShaderSource, fragmentShaderSource);
+    gl.useProgram(shaderProgram);
+
+    const positionLocation = gl.getAttribLocation(shaderProgram, "a_position");
+    const timeLocation = gl.getUniformLocation(shaderProgram, "u_time");
+    const ratioLocation = gl.getUniformLocation(shaderProgram, "u_ratio");
+
+    const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+    function render() {
+        const currentTime = performance.now();
+        gl.uniform1f(timeLocation, currentTime);
+        gl.uniform1f(ratioLocation, canvasEl.width / canvasEl.height);
+
+        gl.viewport(0, 0, canvasEl.width, canvasEl.height);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+        requestAnimationFrame(render);
+    }
+
+    function resizeCanvas() {
+        canvasEl.width = window.innerWidth;
+        canvasEl.height = window.innerHeight;
+        gl.viewport(0, 0, canvasEl.width, canvasEl.height);
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    render();
+</script>
+
+        </div>
+        <div class="home-content">
+
+            <div class="row contents">
+                <div class="home-content-left">
+
+                    <h3 data-aos="fade-up">Bem-vindo a PutHype</h3>
+
+                    <h1 data-aos="fade-up">
+                        Tudo que você<br>
+                        precisa para o seu<br>
+                        networking.
+                    </h1>
+
+                    <div class="buttons" data-aos="fade-up">
+                        <a href="#download" class="smoothscroll button stroke">
+                            <span class="icon-circle-down" aria-hidden="true"></span>
+                            Download App
+                        </a>
+                        <a href="Neymar JR 4K Clips • Clips for edits • Best Scene Pack • No Watermark • Full HDR [21 60p].mp4"
+                            data-lity class="button stroke">
+                            <span class="icon-play" aria-hidden="true"></span>
+                            Lançamento
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="home-image-right">
+                    <img src="mockuuups-free-iphone-15-pro-hand-mockup.png" srcset="Component 22.png" data-aos="fade-up">
+                </div>
+            </div>
+
+        </div> 
+        
+        <!-- end home-content -->
+
+        <ul class="home-social-list">
+            <li>
+                <a href="#"><i class="fa fa-facebook-square"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-youtube-play"></i></a>
+            </li>
+        </ul>
+        <!-- end home-social-list -->
+
+        <div class="home-scrolldown">
+            <a href="#about" class="scroll-icon smoothscroll">
+                <span>Scroll para baixo</span>
+                <i class="icon-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+    </section> <!-- end home -->
+
+
+    <!-- about
+    ================================================== -->
+    <section id="about">
+
+        <div class="row about-intro">
+
+            <div class="col-four">
+                <h1 class="intro-header" data-aos="fade-up">Sobre nosso App</h1>
+            </div>
+            <div class="col-eight">
+                <p class="lead" data-aos="fade-up">
+                    Nossa missão é reimaginar a forma como eventos são organizados e experimentados, oferecendo soluções
+                    inovadoras que ampliam as possibilidades de networking e aprendizado. Na Puthype, nos dedicamos a
+                    criar um ambiente onde cada evento seja uma plataforma para o crescimento profissional e acadêmico,
+                    permitindo que todos os participantes aproveitem ao máximo cada oportunidade de conexão e troca de
+                    conhecimento.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="row about-features">
+
+            <div class="features-list block-1-3 block-m-1-2 block-mob-full group">
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-window"></i></span>
+
+                    <div class="service-content">
+
+                        <h3>Eventos</h3>
+
+                        <p>Na Puthype, acreditamos que o planejamento é a chave para o sucesso de qualquer evento. Nossa
+                            plataforma oferece ferramentas poderosas e intuitivas que permitem a você estruturar seu
+                            evento de forma eficiente e personalizada, garantindo que cada detalhe esteja perfeitamente
+                            alinhado com seus objetivos.
+                        </p>
+
+                    </div>
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-image"></i></span>
+
+                    <div class="service-content">
+                        <h3>Conexões que Importam</h3>
+
+                        <p>Facilitar conexões significativas é um dos principais objetivos da Puthype. Com nossas
+                            funcionalidades de networking, os participantes têm acesso a uma rede de profissionais e
+                            educadores que podem transformar suas carreiras e experiências, criando relações que
+                            perduram muito além do evento.
+                        </p>
+
+
+                    </div>
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-paint-brush"></i></span>
+
+                    <div class="service-content">
+                        <h3>Controle Total</h3>
+
+                        <p>Organizar um evento envolve muitas partes móveis, e nós estamos aqui para ajudar. Nossa
+                            plataforma de gestão de eventos proporciona controle total sobre todos os aspectos do seu
+                            evento, desde a logística até a comunicação, para que você possa se concentrar em criar uma
+                            experiência inesquecível para os participantes.
+                        </p>
+
+                    </div>
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-file"></i></span>
+
+                    <div class="service-content">
+                        <h3>Estamos Sempre Aqui</h3>
+
+                        <p>Sabemos que os imprevistos não têm hora para acontecer. Por isso, nossa equipe de suporte
+                            está disponível 24 horas por dia, 7 dias por semana, pronta para resolver qualquer problema
+                            que possa surgir e garantir que seu evento ocorra sem interrupções.
+                        </p>
+
+                    </div>
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-sliders"></i></span>
+
+                    <div class="service-content">
+                        <h3>Dados que Importam</h3>
+
+                        <p>Com a Puthype, você não precisa adivinhar o sucesso do seu evento. Nossas ferramentas de
+                            análise oferecem relatórios detalhados que ajudam a medir o impacto e o engajamento dos
+                            participantes, permitindo que você tome decisões informadas para eventos futuros.
+                        </p>
+                    </div>
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-gift"></i></span>
+
+                    <div class="service-content">
+                        <h3>Soluções Personalizadas</h3>
+
+                        <p>Cada evento é único, e nossas soluções refletem essa realidade. Adaptamos nossa plataforma
+                            para atender às suas necessidades específicas, seja um grande evento corporativo ou uma
+                            feira educacional, garantindo que você tenha as ferramentas certas para alcançar seus
+                            objetivos.
+                        </p>
+
+                    </div>
+
+                </div> <!-- /bgrid -->
+
+            </div> <!-- end features-list -->
+
+        </div> <!-- end about-features -->
+
+        <div class="row about-how">
+
+            <h1 class="intro-header" data-aos="fade-up">Como funciona o App?</h1>
+
+            <div class="about-how-content" data-aos="fade-up">
+                <div class="about-how-steps block-1-2 block-tab-full group">
+
+                    <div class="bgrid step" data-item="1">
+                        <h3>Inscrever-se</h3>
+                        <p>Comece se registrando no AppConnect. Crie uma conta em poucos passos, fornecendo as
+                            informações básicas sobre você e sua empresa. Essa etapa inicial é rápida e permite que você
+                            tenha acesso à plataforma, onde poderá explorar todas as funcionalidades disponíveis para
+                            criar e gerenciar seus eventos.
+                        </p>
+                    </div>
+
+                    <div class="bgrid step" data-item="2">
+                        <h3>Criar</h3>
+                        <p>Após o cadastro, é hora de criar o seu evento. Personalize todos os detalhes, como nome, tipo
+                            de evento, agenda, palestrantes, e objetivos de networking. Essa etapa garante que o evento
+                            atenda às suas expectativas e ofereça a melhor experiência possível para os participantes.
+                        </p>
+                    </div>
+
+                    <div class="bgrid step" data-item="3">
+                        <h3>Upload</h3>
+                        <p>Com o evento criado, você pode fazer o upload de todos os materiais necessários, como
+                            apresentações, vídeos e documentos. Esses materiais estarão disponíveis para os
+                            participantes durante o evento, enriquecendo a experiência e proporcionando recursos úteis
+                            para todos.
+                        </p>
+                    </div>
+
+                    <div class="bgrid step" data-item="4">
+                        <h3>Publicar</h3>
+                        <p>Agora que tudo está pronto, publique o evento na plataforma e envie convites para os
+                            participantes. Eles poderão acessar todas as informações, interagir com outros participantes
+                            e aproveitar ao máximo o networking e as atividades oferecidas. Após o evento, você poderá
+                            acessar relatórios detalhados sobre a participação e feedback dos usuários.
+                        </p>
+                    </div>
+
+                </div>
+            </div> <!-- end about-how-content -->
+
+        </div> <!-- end about-how -->
+
+        <div class="row about-bottom-image">
+
+            <img src="iPhone 15 Pro.png" srcset="Component 5.png 600w, 
+            Component 5.png 1200w, 
+            Component 5.png 2800w" sizes="(max-width: 2800px) 100vw, 2800px"
+                alt="App Screenshots" data-aos="fade-up" class="Component05">
+
+        </div> <!-- end about-bottom-image -->
+
+    </section> <!-- end about -->
+
+
+    <!-- pricing
+    ================================================== -->
+    <section id="pricing">
+        <div class="row pricing-content">
+
+            <div class="col-four pricing-intro">
+                <h1 class="intro-header" data-aos="fade-up">Nossas opções de preços</h1>
+
+                <p data-aos="fade-up">Na Puthype, entendemos que cada evento tem suas particularidades e exigências únicas. Por isso, oferecemos planos flexíveis que se adaptam às suas necessidades, seja você um organizador iniciando no mercado ou uma grande empresa que busca soluções completas.
+                </p>
+            </div>
+
+            <div class="col-eight pricing-table">
+                <div class="row">
+
+                    <div class="col-six plan-wrap">
+                        <div class="plan-block" data-aos="fade-up">
+
+                            <div class="plan-top-part">
+                                <h3 class="plan-block-title">Plano Básico</h3>
+                                <p class="plan-block-price"><sup>R$</sup>199</p>
+                                <p class="plan-block-per">Por Mês</p>
+                            </div>
+
+                            <div class="plan-bottom-part">
+                                <ul class="plan-block-features">
+                                    <li><span>Acesso a Ferramentas</span> de Gestão de Eventos</li>
+                                    <li><span>Suporte</span> via E-mail</li>
+                                    <li><span>Relatórios Básicos</span> de Desempenho</li>
+                                    <li><span>Networking</span> Limitado a 50 Conexões</li>
+                                </ul>
+
+                                <a class="button button-primary large" href="">Comece Agora</a>
+                            </div>
+
+                        </div>
+                    </div> <!-- end plan-wrap -->
+
+                    <div class="col-six plan-wrap">
+                        <div class="plan-block primary" data-aos="fade-up">
+
+                            <div class="plan-top-part">
+                                <h3 class="plan-block-title">Plano Premium</h3>
+                                <p class="plan-block-price"><sup>R$</sup>499</p>
+                                <p class="plan-block-per">Por Mês</p>
+                            </div>
+
+                            <div class="plan-bottom-part">
+                                <ul class="plan-block-features">
+                                    <li><span>Networking Ilimitado</span></li>
+                                    <li><span>Suporte 24/7</span> com Atendimento Prioritário</li>
+                                    <li><span>Relatórios Avançados</span> e Análises Preditivas</li>
+                                    <li><span>Personalização</span> da Interface e Branding</li>
+                                </ul>
+
+                                <a class="button button-primary large" href="">Comece Agora</a>
+                            </div>
+
+                        </div>
+                    </div> <!-- end plan-wrap -->
+
+                </div>
+            </div> <!-- end pricing-table -->
+
+        </div> <!-- end pricing-content -->
+    </section> <!-- end pricing -->
+
+
+    <!-- Testimonials Section
+    ================================================== -->
+    <section id="testimonials">
+
+        <div class="row">
+            <div class="col-twelve">
+                <h1 class="intro-header" data-aos="fade-up">O que dizem sobre nosso aplicativo.</h1>
+            </div>
+        </div>
+
+        <div class="row owl-wrap">
+
+            <div id="testimonial-slider" data-aos="fade-up">
+
+                <div class="slides owl-carousel">
+
+                    <div>
+                        <p>
+                            A Puthype transformou completamente nossa abordagem em eventos. A facilidade de uso e a eficácia das ferramentas de networking nos permitiram criar conexões que antes pareciam impossíveis. O suporte contínuo foi fundamental para o sucesso do nosso evento.
+                        </p>
+
+                        <div class="testimonial-author">
+                            <img src="images/avatars/user-02.jpg" alt="Author image">
+                            <div class="author-info">
+                                — João M
+                                <span class="position">Diretor de Marketing.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>
+                            Com a Puthype, conseguimos organizar o melhor evento educacional da nossa história. A plataforma é extremamente intuitiva, e as funcionalidades oferecidas realmente potencializaram o engajamento dos participantes. Estamos ansiosos para usar a Puthype em todos os nossos futuros eventos.
+                        </p>
+
+                        <div class="testimonial-author">
+                            <img src="images/avatars/user-03.jpg" alt="Author image">
+                            <div class="author-info">
+                                — Mariana S
+                                <span>Coordenadora de Eventos.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- end slides -->
+
+            </div> <!-- end testimonial-slider -->
+
+        </div> <!-- end flex-container -->
+
+    </section> <!-- end testimonials -->
+
+
+    <!-- download
+    ================================================== -->
+    <section id="download">
+
+        <div class="row">
+            <div class="col-full">
+                <h1 class="intro-header" data-aos="fade-up">Baixe nosso aplicativo hoje!</h1>
+
+                <p class="lead" data-aos="fade-up">
+                    Não perca mais tempo. Com o AppConnect, você tem todas as ferramentas necessárias para transformar seus eventos em experiências únicas e altamente eficazes. Baixe agora e comece a maximizar o potencial de networking e aprendizado dos seus participantes, tudo ao alcance de um clique.
+                </p>
+
+                <ul class="download-badges">
+                
+
+            </div>
+        </div>
+
+    </section> <!-- end download -->
+
+
+    <!-- footer
+    ================================================== -->
+    <footer>
+
+        <div class="footer-main">
+            <div class="row">
+
+                <div class="col-three md-1-3 tab-full footer-info">
+
+                    <div class="footer-logo"></div>
+
+                    <p>
+                        Na Puthype, acreditamos que cada evento é uma oportunidade única de criar conexões valiosas e impactantes.
+                    </p>
+
+                    <ul class="footer-social-list">
+                        <li>
+                            <a href="#"><i class="fa fa-facebook-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </li>
+                    </ul>
+
+
+                </div> <!-- end footer-info -->
+
+                <div class="col-three md-1-3 tab-1-2 mob-full footer-contact">
+
+                    <h4>Contatos</h4>
+
+                    <p>
+                        Seja via e-mail, telefone ou redes sociais, nossa equipe está disponível para responder a qualquer dúvida e oferecer o suporte necessário.<br>
+                    </p>
+
+                    <p>
+                        prime@puthype.com <br>
+                        Phone: (+55) 96969-0707 <br>
+                        Fax: (+55) 777 0700
+                    </p>
+
+                </div> <!-- end footer-contact -->
+
+                <div class="col-two md-1-3 tab-1-2 mob-full footer-site-links">
+
+                    <h4>Links</h4>
+
+                    <ul class="list-links">
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="#">Time</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                    </ul>
+
+                </div> <!-- end footer-site-links -->
+
+                <div class="col-four md-1-2 tab-full footer-subscribe">
+
+                    <h4>Informativo</h4>
+
+                    <p>Na Puthype, escolha entre o **Plano Básico** (R$ 199/mês) ou o **Plano Premium** (R$ 499/mês) e impulsione seu evento.</p>
+
+                    <div class="subscribe-form">
+
+                        <form id="mc-form" class="group" novalidate="true">
+
+                            <input type="email" value="" name="EMAIL" class="email" id="mc-email"
+                                placeholder="Endereço de email" required="">
+
+                            <input type="submit" name="subscribe" value="Enviar">
+
+                            <label for="mc-email" class="subscribe-message"></label>
+
+                        </form>
+
+                    </div>
+
+                </div> <!-- end footer-subscribe -->
+
+            </div> <!-- /row -->
+        </div> <!-- end footer-main -->
+
+
+        <div class="footer-bottom">
+
+            <div class="row">
+                <div class="col-twelve">
+                    <div class="copyright">
+                        <span>© Copyright Puthype 2024.</span>
+                        <span>Design por<a href="http://www.styleshout.com/"> Almeida</a></span>
+                    </div>
+
+                    <div id="go-top">
+                        <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon-arrow-up"></i></a>
+                    </div>
+                </div>
+
+            </div> <!-- end footer-bottom -->
+
+        </div>
+
+    </footer>
+
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

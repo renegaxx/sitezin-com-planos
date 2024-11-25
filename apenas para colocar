@@ -1,0 +1,24 @@
+<h2>Plano Básico</h2>
+                        <div class="preco">
+                            <h2>R$ <span>99,99</span></h2>
+                            <p class="mes">Por mes</p>
+                        </div>
+                            <p>Acesso limitado a eventos Exclusivos</p>
+                            <p>DashBoard</p>
+                            <p>Selo Básico</p>
+                            <p></p>
+                        </div>
+
+
+                        <h2>Plano Avançado</h2>
+                        <p>Todos os componentes do Plano Básico</p>
+                        <p>Acesso a eventos exclusivos.</p>
+                        <p>Suporte a equipe PutHype</p>
+                        <p>Descontos em Parcerias</p>
+
+
+                        <h2>Plano Premium</h2>
+                        <p>Acesso total a todos os eventos.</p>
+                        <p>Todos os componentes do Plano Avançado</p>
+                        <p>Cartão exclusivo</p>
+                        <p>Selo Premium</p>

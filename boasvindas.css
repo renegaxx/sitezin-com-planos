@@ -1,0 +1,475 @@
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('fonts/Poppins-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Raleway-Regular';
+    src: url('fonts/Raleway-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway-Bold';
+    src: url('fonts/Raleway-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway-SemiBold';
+    src: url('fonts/Raleway-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+/* Resetando margens e paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo geral */
+body {
+    font-family: 'Raleway-Bold', sans-serif;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: black;
+    
+    overflow: hidden;
+}
+#background-image {
+  position: fixed;
+  bottom: 0;
+  right: 100;
+  width: 1700px;
+  height: auto;
+  opacity: 1.5;
+  z-index: -1;
+}
+
+
+
+/* Container da mensagem de boas-vindas */
+#welcome-container {
+    text-align: center;
+    padding: 20px;
+    max-width: 1000px;
+    width: 1000px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;  /* Para permitir o movimento */
+    top: 50%;  /* Posição inicial para começar no meio */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: top 2s ease, transform 2s ease;
+}
+
+/* Animação do título de boas-vindas */
+#welcome-message {
+    font-size: 52px;
+    font-weight: bold;
+    animation: welcomeAnimation 3s ease-out forwards;
+    position: relative;
+}
+
+/* Animação: começa no centro, diminui e sobe para o topo */
+@keyframes welcomeAnimation {
+    0% {
+        transform: scale(1);
+        top: 50%;
+        position: relative;
+    }
+    50% {
+        transform: scale(0.8);
+        top: 30%;
+    }
+    100% {
+        transform: scale(0.6);
+        top: 10%;
+    }
+}
+
+/* Estilo para a imagem piscante */
+#blinking-image-container {
+    position: fixed;
+    top: 140%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    opacity: 0.4;
+}
+
+#blinking-image {
+    width: 500vw;
+    height: 500vh;
+    animation: blinkAnimation 4s infinite ease-in-out;
+}
+
+@keyframes blinkAnimation {
+    0%, 100% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Estilo para os botões de "Colaborador" e "Criador" */
+#role-selection {
+    display: flex;
+    margin-top: 100px;
+}
+/* Animação para mover as informações para o topo */
+#welcome-container.animated {
+    top: 5%;
+    transform: translate(-50%, 0%);
+}
+
+#role-selection button {
+    font-family: inherit;
+    font-size: 20px;
+    
+    box-shadow: 0 0 45px #9F3EFC;
+    margin-inline: 10px;
+    padding: 0.7em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    font-weight: 1000;
+    width: 340px;
+    height: 160px;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    opacity: 0; /* Começa invisível */
+    transform: translateY(20px); /* Leve deslocamento para efeito de deslizamento */
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.5s; /* Um pequeno delay para aparecer */
+}
+
+/* Animação de Fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#role-selection {
+    display: flex;
+    opacity: 1; /* Iniciar com os botões visíveis */
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out; /* Transição suave */
+    visibility: visible; /* Começar visível */
+    
+}
+
+#role-selection.show {
+    opacity: 1; /* Visível quando a classe 'show' for aplicada */
+    
+}
+
+#custom-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transform: translateY(100%); /* Inicia o contêiner fora da tela (em baixo) */
+    transition: transform 0.5s ease-in-out; /* Transição suave */
+  }
+  
+  #custom-container.show {
+    transform: translateY(0); /* Quando a classe 'show' for adicionada, desliza para cima */
+  }
+  
+/* Estilo para o overlay e seus filhos */
+#overlay {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #overlay img {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  #overlay p {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 20px;
+    font-family: 'Poppins-Regular';
+  }
+  
+  
+  
+  
+  #close-btn {
+    align-items: center;  /* Alinha verticalmente no centro */
+    justify-content: center;  /* Alinha horizontalmente no centro */
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 0.9rem;
+    height: 2.1rem;
+    padding: 0 3rem;
+    margin: 0 .3rem 1.2rem 0;
+    color: #222222;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: .5rem;
+    transition: all 0.3s ease-in-out;
+    background-color: #ffffff;
+    border: .3rem solid #ececec;
+    
+   
+    position: relative;
+  }
+  
+  #close-btn:hover {
+    background: #ccc;
+  }
+  
+  #download {
+    display: flex;  /* Usa flexbox para alinhar a imagem e o texto lado a lado */
+    align-items: center;  /* Alinha verticalmente no centro */
+    justify-content: center;  /* Alinha horizontalmente no centro */
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 1.5rem;
+    height: 4.1rem;
+    padding: 0 3rem;
+    margin: 0 .3rem 1.2rem 0;
+    color: #222222;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: .5rem;
+    transition: all 0.3s ease-in-out;
+    background-color: #9F3EFC;
+    border: .3rem solid #9F3EFC;
+    box-shadow: 0 0 25px #9F3EFC;
+    position: relative;
+}
+
+#download:hover {
+    background-color: rgba(95, 37, 150, 0.8);
+    color: #fff;
+    box-shadow: 0 0 200px #9F3EFC, 0 0 600px #9F3EFC;
+    transform: scale(1.03);
+}
+
+#download p {
+    font-family: 'Montserrat-Regular', sans-serif;
+    font-size: 1.3rem;
+    margin-top: 10px;
+    margin-left: 10px;  /* Espaço entre a imagem e o texto */
+}
+
+#download img {
+    width: 2.3rem;  /* Ajuste o tamanho da imagem */
+    margin-top: 10px;
+}
+
+  button {
+    position: relative;
+    font-size: 22px;
+  }
+  
+  button span {
+    display: block;
+    margin-left: 0.3em;
+    transition: transform 0.5s ease;
+  }
+  
+  button:hover span {
+    transform: translateY(-80px);
+  }
+  
+  .tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: white;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    text-align: center;
+    width: 104%;
+    pointer-events: none;
+  }
+  
+  .tooltip p {
+    font-family: 'Poppins-Regular';
+    font-weight: 100;
+    font-size: 14px;
+    padding: 50px;
+  }
+  
+  button:hover .tooltip {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  
+  button:hover {
+    background: #000;
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+
+.botoesDeConfirmacao {
+  margin-top: 20px;
+}
+
+  #confirmation-screen {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    
+  }
+  #confirmation-screen p {
+    width: 600px;
+    font-family: 'Poppins-Regular';
+    font-weight: 100;
+    margin-top: 30px;
+  }
+
+  #confirm-btn {
+    display: flex;  /* Usa flexbox para alinhar a imagem e o texto lado a lado */
+    align-items: center;  /* Alinha verticalmente no centro */
+    justify-content: center;  /* Alinha horizontalmente no centro */
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 1.5rem;
+    height: 4.1rem;
+    padding: 0 3rem;
+    margin: 0 .3rem 1.2rem 0;
+    color: #222222;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: .5rem;
+    transition: all 0.3s ease-in-out;
+    background-color: #9F3EFC;
+    border: .3rem solid #9F3EFC;
+    box-shadow: 0 0 25px #9F3EFC;
+    position: relative;
+    color: white;
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #confirm-btn:hover {
+    background-color: rgba(95, 37, 150, 0.8);
+    color: #fff;
+    box-shadow: 0 0 200px #9F3EFC, 0 0 600px #9F3EFC;
+    transform: scale(1.03);
+}
+
+#cancel-btn {
+  align-items: center;  /* Alinha verticalmente no centro */
+  justify-content: center;  /* Alinha horizontalmente no centro */
+  font-family: "Montserrat-Regular", sans-serif;
+  font-size: 0.9rem;
+  height: 2.1rem;
+  padding: 0 3rem;
+  margin: 0 .3rem 1.2rem 0;
+  color: #222222;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: .5rem;
+  transition: all 0.3s ease-in-out;
+  background-color: #ffffff;
+  border: .3rem solid #ececec;
+  
+ 
+  position: relative;
+}
+
+#cansel-btn:hover {
+  background: #ccc;
+}
+
+
+#container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-inline: 100px;
+
+}
+.Principal, .Principal2 {
+  transition: 1s;
+}
+.Principal h4, .Principal2 h4 {
+    font-weight: 100;
+    font-family: 'Montserrat-Regular';
+    font-size: 24px;
+}
+.Principal a, .Principal2 a {
+  padding: 4px 15px;
+  border: 2px solid rgba(255, 255, 255, 0.39);
+  text-decoration: none;
+  color: #ccc;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+.Principal a:hover, .Principal2 a:hover {
+  
+  border: 2px solid rgb(148, 0, 211);
+}
+.Marketing {
+  margin-top: 10px;
+}
+.Principal2 {
+  margin-top: 20px;
+  
+}
+
+
+.gosto-item {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 5px;
+  text-decoration: none;
+  color: #000;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+.gosto-item.selected {
+  border-color: purple;
+  color: purple;
+}

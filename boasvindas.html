@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PutHype</title>
+  <link rel="stylesheet" href="boasvindas.css">
+  <link rel="icon" href="assets/logosolo.png" type="image/x-icon">
+  <script type="module" src="BemScript.js" defer></script>
+</head>
+
+<body>
+  <div id="welcome-container">
+    <h2 id="welcome-message">Bem-vindo, <span id="fullName"></span>!</h2> <!-- Exibe o nome completo -->
+    <!-- <p>Nome de usuário: <span id="username"></span></p> 
+        <p>Email: <span id="user-email"></span></p>  -->
+    <div id="user-info">
+      <!-- Status do Criador -->
+    </div>
+    <!-- Caixas para escolher entre colaborador ou criador -->
+  </div>
+  <div id="container">
+    <div class="Principal">
+      <h4>Por favor, escolha seus interesses</h4>
+      <div class="Marketing">
+        <a href="#" class="gosto-item" data-gosto="Marketing Digital">Marketing Digital</a>
+        <a href="#" class="gosto-item" data-gosto="Cursos">Cursos</a>
+        <a href="#" class="gosto-item" data-gosto="Podcasts">Podcasts</a>
+        <a href="#" class="gosto-item" data-gosto="Vendas">Vendas</a>
+      </div>
+    </div>
+    <div class="Principal2">
+      <h4>Outros Interesses</h4>
+      <div class="Marketing">
+        <a href="#" class="gosto-item" data-gosto="blogs">Blogs</a>
+        <a href="#" class="gosto-item" data-gosto="podcasts">Podcasts</a>
+        <a href="#" class="gosto-item" data-gosto="videogames">Videogames</a>
+        <a href="#" class="gosto-item" data-gosto="moda">Moda</a>
+        <a href="#" class="gosto-item" data-gosto="programação">Programação</a>
+      </div>
+    </div>
+    <div id="role-selection">
+      <button id="collaborator-btn">
+        <img src="" alt="">
+        <span>Colaborador</span>
+        <div class="tooltip">
+          <p>Representa o Puthype nos eventos, interage com o público, coleta feedbacks e ajuda na organização,
+            promovendo
+            uma experiência positiva e envolvente.</p>
+        </div>
+      </button>
+      <button id="creator-btn">
+        <img src="" alt="">
+        <span>Criador</span>
+        <div class="tooltip">
+          <p>Responsável por planejar, coordenar e executar os eventos do Puthype, garantindo inovação e uma experiência
+            impactante para o público.</p>
+        </div>
+      </button>
+    </div>
+  </div>
+
+
+
+
+  <!-- Tela de Download do APP -->
+  <div id="custom-container" style="display: none; margin-right: 250px;">
+    <div id="overlay">
+      <img src="iPhone 13 Pro (1).png" alt="Imagem Personalizada" />
+      <p>Para ser um colaborador, é necessário baixar<br> nosso Aplicativo</p>
+      <a id="download">
+        <img src="icon_download.png" alt="">
+        <p>Download</p>
+      </a>
+      <button id="close-btn">Voltar</button>
+    </div>
+  </div>
+
+  <!-- Tela de confirmação personalizada (inicialmente escondida) -->
+  <div id="confirmation-screen" style="display: none;">
+    <h2>Você quer se tornar um Criador?</h2>
+    <p>Para deixar de ser criador, você precisará assinar um plano. Isso garantirá acesso ao nosso dashboard exclusivo,
+      onde poderá gerenciar seu conteúdo e configurações de maneira personalizada.</p>
+
+    <button id="confirm-btn">Sim, quero ser Criador</button>
+    <button id="cancel-btn">Não, voltar</button>
+
+  </div>
+
+  <img id="background-image" src="assets/black3.png" alt="Background Image">
+
+
+  <div id="blinking-image-container">
+    <img src="assets/eclipse1.png" alt="Imagem Piscante" id="blinking-image">
+  </div>
+</body>
+
+</html>

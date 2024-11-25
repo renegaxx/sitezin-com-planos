@@ -1,0 +1,286 @@
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('fonts/Poppins-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Raleway-Regular';
+    src: url('fonts/Raleway-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway-Bold';
+    src: url('fonts/Raleway-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway-SemiBold';
+    src: url('fonts/Raleway-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url('fonts/Montserrat-Medium.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url('fonts/Inter_18pt-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+
+}
+#planos_container {
+    display: flex;
+    justify-content: center; /* Alinha horizontalmente no centro */
+    align-items: center; /* Alinha verticalmente no centro */
+    gap: 20px; /* Reduz a distância entre os containers */
+    
+    /* Define altura e margens para centralização vertical */
+    height: 100vh; /* Ocupa 100% da altura da tela */
+    margin: 0 auto; /* Centraliza horizontalmente no restante do espaço */
+    
+    width: 100%; /* Garante que ocupe o espaço necessário */
+    flex-wrap: wrap; /* Permite que os containers se ajustem ao tamanho da tela */
+}
+
+
+.container {
+    text-align: center;
+    padding: 20px;
+    margin-inline: 20px;
+    flex: 1 1 250px;
+    max-width: 300px;
+    border-radius: 15px; /* Curvatura mais suave */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra leve para destacar */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.2); /* Fundo levemente transparente */
+    backdrop-filter: blur(10px); /* Desfoque no fundo */
+    -webkit-backdrop-filter: blur(10px); /* Compatível com navegadores Webkit */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Borda levemente visível */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container-premium:hover {
+    transform: scale(1.08); /* Maior aumento ao passar o mouse */
+    box-shadow: 0 20px 40px rgba(148, 0, 211, 0.6); /* Destaque ainda maior */
+}
+
+.container-iniciante {
+    background: rgba(54, 54, 54, 0.3); /* Fundo azul-claro com transparência */
+    border: 2px solid rgba(255, 255, 255, 0.39); /* Borda azul-claro */
+}
+
+.container-basico {
+    background: rgba(58, 58, 58, 0.3); /* Fundo azul-médio com transparência */
+    border: 2px solid rgba(178, 235, 242, 0.466); /* Borda azul-médio */
+}
+
+.container-avancado {
+    background: rgba(58, 58, 58, 0.3); /* Fundo azul-turquesa com transparência */
+    border: 2px solid rgb(128, 222, 234); /* Borda azul-turquesa */
+}
+
+.container-premium {
+    background: linear-gradient(145deg, rgba(77, 208, 225, 0.267), rgba(148, 0, 211, 0.2)); /* Gradiente suave */
+    border: 2px solid rgb(148, 0, 211); /* Borda com o tom roxo para sofisticação */
+    backdrop-filter: blur(12px); /* Desfoque mais acentuado */
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgb(148, 0, 211); /* Sombra mais visível */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.container-premium:hover {
+    transform: scale(2.15); /* Leve zoom */
+}
+
+
+
+.plano h1 {
+    font-family: 'Raleway-Regular', sans-serif;
+    font-weight: 100;
+    font-size: 1.2rem; /* Ajustado para menor tamanho */
+    margin-bottom: 10px;
+    color: white;
+}
+
+.plano h3 {
+    margin: 10px 0;
+    font-size: 1rem; /* Ajustado */
+    color: white;
+}
+
+.plano h3 span {
+    font-size: 3rem; /* Reduzido */
+    font-family: 'Montserrat-Regular';
+    font-weight: 100;
+}
+
+.plano p {
+    font-size: 0.9rem; /* Reduzido */
+    margin-top: 5px;
+    color: white;
+}
+
+.linha {
+    background-color: rgb(189, 189, 189);
+    height: 0.5px;
+    width: 150px; /* Reduzido */
+    margin: 10px auto; /* Simplificado */
+}
+
+.recursos {
+    margin-top: 15px;
+}
+
+.recursos p {
+    color: rgb(230, 230, 230);
+    font-family: 'Inter-Regular';
+    width: 180px; /* Reduzido */
+    font-size: 0.8rem; /* Reduzido */
+    text-align: center;
+    margin: 10px auto; /* Simplificado */
+}
+
+.recursos span {
+    color: #9F3EFC;
+    font-weight: bold;
+}
+
+.contem {
+    width: 150px; /* Reduzido */
+    font-size: 0.67rem; /* Reduzido */
+    margin-inline: auto;
+    font-family: 'Inter-Regular';
+    color: #222222;
+    color: azure;
+}
+
+a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat-Regular", sans-serif;
+    height: 3rem; /* Ajuste na altura */
+    padding: 0 10%; /* Largura relativa */
+    font-size: 1rem;
+    color: #fff; /* Branco para melhor contraste */
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    background: linear-gradient(90deg, #9F3EFC, #4dd0e1); /* Gradiente roxo para azul */
+    border: 2px solid transparent; /* Remove a borda visível */
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.7); /* Sombra vibrante */
+    transition: all 1.3s ease-in-out;
+    width: 80%;
+    max-width: 220px;
+    align-self: center;
+    position: relative;
+    overflow: hidden;
+}
+
+a:hover {
+    background: linear-gradient(90deg, #4dd0e1, #9F3EFC); /* Inverte o gradiente no hover */
+    color: #fff;
+    box-shadow: 0 0 40px rgba(148, 0, 211, 0.9), 0 0 80px rgba(77, 208, 225, 0.8); /* Brilho mais intenso */
+    transform: scale(1.65); /* Leve zoom */
+}
+
+a::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(148, 0, 211, 0.4), transparent 70%);
+    animation: pulse 2s infinite;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+a:hover::before {
+    opacity: 0.8; /* Torna o efeito mais visível no hover */
+}
+
+a p {
+    position: relative;
+    z-index: 1; /* Garante que o texto fique acima do gradiente animado */
+}
+
+/* Efeito de pulsação no botão */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+#background-image {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 1800px;
+    height: auto;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px); /* Surge de baixo */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Fica na posição final */
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9); /* Surge menor */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Retorna ao tamanho normal */
+    }
+}
+
+.container {
+    /* Define estado inicial da animação */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+a {
+    /* Define estado inicial da animação para os botões */
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 0.5s; /* Adiciona um pequeno atraso após os containers */
+}

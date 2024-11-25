@@ -1,0 +1,25 @@
+<div id="role-selection">
+    <button id="collaborator-btn">
+      <img src="" alt="">
+      <span>Colaborador</span>
+      <div class="tooltip">
+        <p>Representa o Puthype nos eventos, interage com o público, coleta feedbacks e ajuda na organização, promovendo
+          uma experiência positiva e envolvente.</p>
+      </div>
+    </button>
+    <button id="creator-btn">
+      <img src="" alt="">
+      <span>Criador</span>
+      <div class="tooltip">
+        <p>Responsável por planejar, coordenar e executar os eventos do Puthype, garantindo inovação e uma experiência
+          impactante para o público.</p>
+      </div>
+    </button>
+  </div>
+
+
+
+  <p id="fullName"></p>
+      <p id="username"></p>
+      <p id="user-email"></p>
+      <p id="criador-status"></p>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PutHype - Iniciar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/logosolo.png" type="image/x-icon">
+    <script type="module" src="script.js" defer></script>
+</head>
+
+<body>
+    <div id="login-container" class="form-container">
+        <div id="blinking-image-container">
+            <img src="assets/eclipse1.png" alt="Imagem Piscante" id="blinking-image">
+        </div>
+        <div class="login-container-img">
+            <img src="assets/logo.png" alt="Logo">
+        </div>
+        <div class="form-box">
+            <h2>Login</h2>
+            <input id="login-email" type="email" placeholder="E-mail" required>
+            <input id="login-password" type="password" placeholder="Senha" required>
+            <div class="esqueceu">
+                <a href="#" onclick="handleResetPassword()">Esqueceu a senha?</a>
+            </div>
+            <button onclick="handleLogin()">Entrar</button>
+          
+            <p>Não tem uma conta? <a href="#" onclick="toggleForm()">Cadastre-se</a></p>
+        </div>
+    </div>
+
+    <div id="register-container" class="form-container" style="display: none;">
+        <div id="blinking-image-container">
+            <img src="assets/eclipse1.png" alt="Imagem Piscante" id="blinking-image">
+        </div>
+        <div class="login-container-img">
+            <img src="assets/logo.png" alt="Logo">
+        </div>
+        <div class="form-box">
+            <h2>Cadastro</h2>
+            <input id="register-name" type="text" placeholder="Nome e Sobrenome" required>
+            <input id="register-phone" type="text" placeholder="Telefone" required>
+            <input id="register-username" type="text" placeholder="Nome de Usuário" required>
+            <input id="register-email" type="email" placeholder="E-mail" required>
+            <input id="register-password" type="password" placeholder="Senha" required>
+            <button onclick="handleRegister()">Cadastrar</button>
+            <p>Já tem uma conta? <a href="#" onclick="toggleForm()">Faça login</a></p>
+        </div>
+    </div>
+
+    <img id="background-image" src="assets/black_4 2.png" alt="Background Image">
+</body>
+
+</html>
